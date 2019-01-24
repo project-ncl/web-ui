@@ -1,0 +1,80 @@
+<!--
+
+    JBoss, Home of Professional Open Source.
+    Copyright 2014-2018 Red Hat, Inc., and individual contributors
+    as indicated by the @author tags.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<div class="pnc-build-details">
+  <dl class="dl-horizontal">
+    <dt>Job Id:</dt>
+    <dd>{{ ctrl.record.id }}</dd>
+    <dt>Status:</dt>
+    <dd ng-class="ctrl.record.status === 'DONE' ? 'text-success' : 'text-danger'">{{ ctrl.record.status }} <span class="m-l-20">[ <a ng-href="{{ ctrl.record.$buildLogUrl() }}" >Plain Text Log</a> ]</span></dd>
+    <dt>Build Config:</dt>
+    <dd><a href ui-sref="build-configs.detail({ configurationId: ctrl.record.buildConfigurationId })">{{ ctrl.record.buildConfigurationName || '&mdash;' }}</a></dd>
+    <dt>Started By:</dt>
+    <dd>{{ ctrl.record.username || '&mdash;' }}</dd>
+    <dt ng-show="ctrl.record.submitTime">Submitted:</dt>
+    <dd ng-show="ctrl.record.submitTime">{{ (ctrl.record.submitTime | date : 'medium') }}</dd>
+    <dt ng-show="ctrl.record.startTime">Started:</dt>
+    <dd ng-show="ctrl.record.startTime">{{ (ctrl.record.startTime | date : 'medium') }}</dd>
+    <dt ng-show="ctrl.record.endTime">Finished:</dt>
+    <dd ng-show="ctrl.record.endTime">{{ (ctrl.record.endTime | date : 'medium') }}</dd>
+
+    <!-- repository configuration -->
+    <dt>SCM URL:</dt>
+    <dd>
+      <span ng-show="ctrl.record.scmRepoURL">{{ ctrl.record.scmRepoURL }}</span>
+      <span ng-hide="ctrl.record.scmRepoURL">
+        <span class="pficon pficon-warning-triangle-o" ng-if="ctrl.record.status !== 'BUILDING'" title="Something went wrong, probably during alignment process, you should check logs for more details."></span>
+        Based on {{ ctrl.record.buildConfigurationAudited.repositoryConfiguration.internalUrl }}
+      </span>
+    </dd>
+    <!-- repository configuration -->
+
+    <dt>SCM Revision:</dt>
+    <dd>
+      <span ng-show="ctrl.record.scmRevision">{{ ctrl.record.scmRevision }}</span>
+      <span ng-hide="ctrl.record.scmRevision">
+        <span class="pficon pficon-warning-triangle-o" ng-if="ctrl.record.status !== 'BUILDING'" title="Something went wrong, probably during alignment process, you should check logs for more details."></span>
+        Based on {{ ctrl.record.buildConfigurationAudited.scmRevision }}
+      </span>
+    </dd>
+
+    <dt>Environment:</dt>
+    <dd>{{ ctrl.record.buildConfigurationAudited.environment.name || '&mdash;' }}</dd>
+    <dt>Script:</dt>
+    <dd><pre class="pre-scrollable">{{ ctrl.record.buildConfigurationAudited.buildScript || '&mdash;' }}</pre></dd>
+
+    <!-- attributes -->
+    <dt ng-repeat-start="(key, value) in ctrl.record.attributes">{{key}}</dt>
+    <dd ng-repeat-end>{{value}}</dd>
+    <!-- attributes -->
+
+    <!-- generic parameters -->
+    <dt>Generic Parameters</dt>
+    <dd>
+      <ul class="list-unstyled" ng-show="ctrl.record.buildConfigurationAudited.genericParameters">
+        <li ng-repeat="(key, value) in ctrl.record.buildConfigurationAudited.genericParameters">
+          <tt>{{key}}</tt> : <pre>{{value}}</pre>
+        </li>
+      </ul>
+      <span ng-hide="ctrl.record.buildConfigurationAudited.genericParameters">&mdash;</span>
+    </dd>
+    <!-- generic parameters -->
+
+  </dl>
+</div>

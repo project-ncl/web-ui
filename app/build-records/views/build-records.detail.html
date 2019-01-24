@@ -1,0 +1,61 @@
+<!--
+
+    JBoss, Home of Professional Open Source.
+    Copyright 2014-2018 Red Hat, Inc., and individual contributors
+    as indicated by the @author tags.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<div class="row margin-bottom-md">
+  <div class="col-md-12">
+    <div class="page-header border-none">
+      <div class="btn-group pull-right" role="group" aria-label="Build Actions">
+        <pnc-brew-push-button build-record="recordCtrl.record"></pnc-brew-push-button>
+        <button ng-if="recordCtrl.record.$isCancelable()" ng-click="recordCtrl.record.$cancel()" type="button" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Abort</button>
+      </div>
+      <h1>
+        <pnc-build-status-icon build-record="recordCtrl.record" no-warnings="true"></pnc-build-status-icon>
+        Build #{{ recordCtrl.record.id }} of {{ recordCtrl.record.buildConfigurationName }}
+        <pnc-corrupted-build-record-label build-record="recordCtrl.record" class="label-sm"></pnc-corrupted-build-record-label>
+        <pnc-temporary-build-record-label build-record="recordCtrl.record" class="label-sm"></pnc-temporary-build-record-label>
+      </h1>
+    </div>
+  </div>
+</div>
+<div class="row m-b-20">
+  <div class="col-md-12">
+    <ul class="nav nav-tabs">
+      <li role="presentation" ui-sref-active="active"><a href ui-sref="projects.detail.build-configs.detail.build-records.detail.default">Details</a></li>
+      <li role="presentation" ui-sref-active="active" ng-hide="recordCtrl.record.status === 'BUILDING'">
+        <a href ui-sref="projects.detail.build-configs.detail.build-records.detail.result">Build Log</a>
+      </li>
+      <li role="presentation" ui-sref-active="active" ng-hide="recordCtrl.record.status === 'BUILDING'">
+        <a href ui-sref="projects.detail.build-configs.detail.build-records.detail.repour-result">Alignment Log</a>
+      </li>
+      <li role="presentation" ui-sref-active="active" ng-hide="recordCtrl.record.status === 'BUILDING'">
+        <a href ui-sref="projects.detail.build-configs.detail.build-records.detail.artifacts">Artifacts</a>
+      </li>
+      <li role="presentation" ui-sref-active="active" ng-hide="recordCtrl.record.status === 'BUILDING'">
+        <a href ui-sref="projects.detail.build-configs.detail.build-records.detail.dependencies">Dependencies</a>
+      </li>
+      <li role="presentation" ui-sref-active="active" ng-show="recordCtrl.hasPushResults()">
+        <a href ui-sref="projects.detail.build-configs.detail.build-records.detail.brew-push">Brew Push</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" ui-view>
+  </div>
+</div>
